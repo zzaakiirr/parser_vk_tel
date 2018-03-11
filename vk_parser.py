@@ -19,11 +19,12 @@ except FileNotFoundError:
     new_pynews_list.append(api.newsfeed.search(q='Python language'))
 else:
     with open('pynews_database.json') as f_obj:
-        old_pynews_database = json.loads()
+        old_pynews_database = json.loads(f_obj.read())
         new_pynews_dict = api.newsfeed.search(
             q='Python language',
             start_from=old_pynews_database[-1]['next_from'])
+        new_pynews_list = old_pynews_database
         new_pynews_list.append(new_pynews_dict)
 
-with open('pynews_database.json', 'a') as outfile:
+with open('pynews_database.json', 'w') as outfile:
     json.dump(new_pynews_list, outfile)
