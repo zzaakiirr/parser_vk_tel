@@ -1,7 +1,6 @@
 import os
 import json
 import vk
-import helpers
 
 
 vk_app_id = os.environ.get('vk_app_id')
@@ -33,11 +32,14 @@ def create_new_pynews_database():
 
 
 def update_current_news_database():
+
     with open('pynews_database.json') as f_obj:
         old_pynews_database = json.loads(f_obj.read())
+        last_added_news_dict = old_pynews_database[-1]
+        page_for_searching = last_added_news_dict['next_from']
         new_pynews_dict = api.newsfeed.search(
             q='Python language',
-            start_from=old_pynews_database[-1]['next_from'])
+            start_from=page_for_searching)
         new_pynews_list = old_pynews_database
         new_pynews_list.append(new_pynews_dict)
 
@@ -45,6 +47,6 @@ def update_current_news_database():
 
 
 if __name__ == '__main__':
-    new_pynews_list = fetch_news_from_vk()
+    new_pynews = fetch_news_from_vk()
     with open('pynews_database.json', 'w') as outfile:
-        json.dump(new_pynews_list, outfile)
+        json.dump(new_pynews, outfile)
