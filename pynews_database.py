@@ -10,7 +10,7 @@ vk_password = os.environ.get('vk_password')
 
 session = vk.AuthSession(
     app_id=vk_app_id, user_login=vk_login,
-    user_password=vk_password, scope='wall, messages')
+    user_password=vk_password)
 api = vk.API(session, v=5.73, lang='en')
 
 try:
