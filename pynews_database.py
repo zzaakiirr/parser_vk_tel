@@ -13,6 +13,12 @@ session = vk.AuthSession(
 api = vk.API(session, v=5.73, lang='en')
 
 
+def read_data_from_database():
+    with open('pynews_database.json') as f_obj:
+        pynews_database = json.loads(f_obj.read())
+    return pynews_database
+
+
 def dump_new_pynews_to_database(new_pynews):
     with open('pynews_database.json', 'w') as outfile:
         json.dump(new_pynews, outfile)
@@ -37,8 +43,7 @@ def create_new_pynews_database():
 
 
 def update_current_pynews_database():
-    with open('pynews_database.json') as f_obj:
-        old_pynews_database = json.loads(f_obj.read())
+    old_pynews_database = read_data_from_database()
 
     last_added_news_to_old_pynews_database = old_pynews_database[-1]
     page_for_searching = last_added_news_to_old_pynews_database['next_from']
