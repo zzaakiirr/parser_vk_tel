@@ -3,9 +3,9 @@ from random import randint
 
 
 def get_random_post_from_database(pynews_database):
-    last_added_news_to_pynews_database = pynews_database[-1]
-    last_added_posts_list = last_added_news_to_pynews_database['items']
-    random_post = last_added_posts_list[randint(0, len(last_added_posts_list))]
+    last_pynews_in_database = pynews_database[0]
+    posts_list = last_pynews_in_database['items']
+    random_post = posts_list[randint(0, len(posts_list))]
     return random_post
 
 

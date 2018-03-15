@@ -26,11 +26,15 @@ def error(bot, update, error):
 
 
 def pynews(bot, update):
-    new_pynews = pynews_database.fetch_pynews_from_vk()
+    try:
+        open('pynews_database.json')
+    except FileNotFoundError:
+        pynews = pynews_database.create_new_pynews_database()
+    else:
+        pynews = pynews_database.read_data_from_database()
     random_post = vk_post_helpers.get_random_post_from_database(
-        new_pynews)
+        pynews)
     post_link = vk_post_helpers.create_post_link(random_post)
-    pynews_database.dump_new_pynews_to_database(new_pynews)
     update.message.reply_text(post_link)
 
 
