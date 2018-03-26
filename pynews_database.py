@@ -24,23 +24,23 @@ def is_database_contains():
         return True
 
 
-def fetch_pynews_from_vk():
+def fetch_pynews_from_vk(api):
     if is_database_contains():
-        new_pynews = create_new_pynews_database()
+        new_pynews = create_new_pynews_database(api)
     else:
-        new_pynews = update_current_pynews_database()
+        new_pynews = update_current_pynews_database(api)
 
     return new_pynews
 
 
-def create_new_pynews_database():
+def create_new_pynews_database(api):
     new_pynews = list()
     new_pynews.append(api.newsfeed.search(q='Python language'))
 
     return new_pynews
 
 
-def update_current_pynews_database():
+def update_current_pynews_database(api):
     old_pynews_database = read_data_from_database()
 
     last_added_news_to_old_pynews_database = old_pynews_database[-1]
@@ -67,5 +67,5 @@ if __name__ == '__main__':
     )
     api = vk.API(session, v=5.73, lang='en')
 
-    new_pynews = fetch_pynews_from_vk()
+    new_pynews = fetch_pynews_from_vk(api)
     dump_new_pynews_to_database(new_pynews)

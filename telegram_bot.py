@@ -1,13 +1,15 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging
 import os
+
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import pynews_database
 import vk_post_helpers
 
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO)
+    level=logging.INFO
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,14 +28,8 @@ def error(bot, update, error):
 
 
 def pynews(bot, update):
-    try:
-        open('pynews_database.json')
-    except FileNotFoundError:
-        pynews = pynews_database.create_new_pynews_database()
-    else:
-        pynews = pynews_database.read_data_from_database()
-    random_post = vk_post_helpers.get_random_post_from_database(
-        pynews)
+    pynews = pynews_database.fetch_pynews_from_vk()
+    random_post = vk_post_helpers.get_random_post_from_database(pynews)
     post_link = vk_post_helpers.create_post_link(random_post)
     update.message.reply_text(post_link)
 
