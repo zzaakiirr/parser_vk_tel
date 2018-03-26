@@ -1,12 +1,13 @@
-import os
 import json
 
 import vk
+import vk_auth
 
 
 def read_data_from_database():
     with open('pynews_database.json') as f_obj:
         pynews_database = json.loads(f_obj.read())
+
     return pynews_database
 
 
@@ -22,15 +23,6 @@ def is_database_contains():
         return False
     else:
         return True
-
-
-def fetch_pynews_from_vk(api):
-    if is_database_contains():
-        new_pynews = create_new_pynews_database(api)
-    else:
-        new_pynews = update_current_pynews_database(api)
-
-    return new_pynews
 
 
 def create_new_pynews_database(api):
@@ -55,17 +47,20 @@ def update_current_pynews_database(api):
     return new_pynews
 
 
-if __name__ == '__main__':
-    vk_app_id = os.environ.get('vk_app_id')
-    vk_login = os.environ.get('vk_login')
-    vk_password = os.environ.get('vk_password')
+def fetch_pynews_from_vk(api):
+    if is_database_contains():
+        new_pynews = create_new_pynews_database(api)
+    else:
+        new_pynews = update_current_pynews_database(api)
 
-    session = vk.AuthSession(
-        app_id=vk_app_id,
-        user_login=vk_login,
-        user_password=vk_password
-    )
-    api = vk.API(session, v=5.73, lang='en')
+    return new_pynews
 
+
+def main():
+    api = vk_auth.fetch_vk_api()
     new_pynews = fetch_pynews_from_vk(api)
     dump_new_pynews_to_database(new_pynews)
+
+
+if __name__ == '__main__':
+    main()
