@@ -1,5 +1,6 @@
-import pynews_database
 from random import randint
+
+import pynews_database
 
 
 def get_random_post_from_database(pynews_database):
@@ -10,6 +11,10 @@ def get_random_post_from_database(pynews_database):
 
 
 def create_post_link(post):
-    # Post link template: 'https://vk.com/wall<author_id>_<post_id>'
-    link = 'https://vk.com/wall' + str(post['from_id']) + '_' + str(post['id'])
+    author_id = post['from_id']
+    post_id = post['id']
+    link = 'https://vk.com/wall{author_id}_{post_id}'.format(
+        author_id=author_id,
+        post_id=post_id
+    )
     return link
