@@ -1,7 +1,7 @@
 import logging
 import os
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler
 import vk
 import pynews_database
 import vk_post_helpers
