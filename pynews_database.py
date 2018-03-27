@@ -28,11 +28,7 @@ def is_database_contains():
 
 def create_new_pynews_database(api):
     new_pynews = list()
-    new_pynews.append(api.newsfeed.search(
-            q='Python language',
-        )
-    )
-
+    new_pynews.append(api.newsfeed.search(q='Python language'))
     return new_pynews
 
 
