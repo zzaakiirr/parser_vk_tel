@@ -65,6 +65,7 @@ def fetch_pynews_from_vk(api, vk_service_token):
 def main():
     api = vk_auth.fetch_vk_api()
     vk_service_token = os.environ.get('vk_service_token')
+    
     new_pynews = fetch_pynews_from_vk(api, vk_service_token)
     dump_new_pynews_to_database(new_pynews)
 
