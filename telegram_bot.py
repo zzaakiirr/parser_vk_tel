@@ -31,7 +31,8 @@ def error(bot, update, error):
 
 def pynews(bot, update):
     api = vk_auth.fetch_vk_api()
-    pynews = pynews_database.fetch_pynews_from_vk(api)
+    vk_service_token = os.environ.get('vk_service_token')
+    pynews = pynews_database.fetch_pynews_from_vk(api, vk_service_token)
     random_post = vk_post_helpers.get_random_post_from_database(pynews)
     post_link = vk_post_helpers.create_post_link(random_post)
     update.message.reply_text(post_link)
@@ -39,7 +40,6 @@ def pynews(bot, update):
 
 def main():
     """Start the bot."""
-
     telegram_bot_access_token = os.environ.get('telegram_bot_access_token')
     updater = Updater(telegram_bot_access_token)
 
