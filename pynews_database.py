@@ -26,25 +26,23 @@ def is_database_contains():
         return True
 
 
-def create_new_pynews_database(api, vk_service_token):
+def create_new_pynews_database(api):
     new_pynews = list()
     new_pynews.append(api.newsfeed.search(
             q='Python language',
-            access_token=vk_service_token
         )
     )
 
     return new_pynews
 
 
-def update_current_pynews_database(api, vk_service_token):
+def update_current_pynews_database(api):
     old_pynews_database = read_data_from_database()
 
     last_added_news_to_old_pynews_database = old_pynews_database[-1]
     page_for_searching = last_added_news_to_old_pynews_database['next_from']
     new_pynews_dict = api.newsfeed.search(
         q='Python language',
-        access_token=vk_service_token,
         start_from=page_for_searching
     )
     new_pynews = old_pynews_database
@@ -53,20 +51,18 @@ def update_current_pynews_database(api, vk_service_token):
     return new_pynews
 
 
-def fetch_pynews_from_vk(api, vk_service_token):
+def fetch_pynews_from_vk(api):
     if is_database_contains():
-        new_pynews = update_current_pynews_database(api, vk_service_token)
+        new_pynews = update_current_pynews_database(api)
     else:
-        new_pynews = create_new_pynews_database(api, vk_service_token)
+        new_pynews = create_new_pynews_database(api)
 
     return new_pynews
 
 
 def main():
     api = vk_auth.fetch_vk_api()
-    vk_service_token = os.environ.get('vk_service_token')
-    
-    new_pynews = fetch_pynews_from_vk(api, vk_service_token)
+    new_pynews = fetch_pynews_from_vk(api)
     dump_new_pynews_to_database(new_pynews)
 
 
