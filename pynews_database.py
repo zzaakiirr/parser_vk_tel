@@ -34,7 +34,6 @@ def create_new_pynews_database(api):
 
 def update_current_pynews_database(api):
     old_pynews_database = read_data_from_database()
-
     last_added_news_to_old_pynews_database = old_pynews_database[-1]
     page_for_searching = last_added_news_to_old_pynews_database['next_from']
     new_pynews_dict = api.newsfeed.search(
